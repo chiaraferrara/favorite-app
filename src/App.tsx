@@ -1,25 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Home from "./components/Home";
+import Favorites from "./components/Favorites";
 
 function App() {
+  const [favorites, showFavorites] = useState(false);
+
+  const goToFavorites = () => {
+    showFavorites((prevPage) => prevPage = true);
+  };
+
+  const showHome = () =>{
+    showFavorites(prevPage => prevPage = false);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02"
+            aria-expanded="false"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <button className="nav-link active" aria-current="page" onClick={showHome}>
+                  Home
+                </button>
+              </li>
+              <li className="nav-item">
+                <button className="nav-link active" onClick={goToFavorites}>Favorites</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      {favorites ? <Favorites/> : <Home/>}
+      
+    </>
   );
 }
 
