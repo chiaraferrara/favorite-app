@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Item } from "../utilities/utilities";
-import { Container, HeartButton, Wrapper } from "./Wrapper";
+import { Button, Container, HeartButton, Wrapper } from "./Styles";
 
 function Home() {
   const [items, setItems] = useState<Item[]>([]);
@@ -8,12 +8,15 @@ function Home() {
   const [img, setImg] = useState("");
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
+  const [favorites, setFavorites] = useState<Item[]>([]);
 
   const saveItemOnLocalStorage = () => {
     const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
     const newItem: Item = {
+      id: Math.random(),
       title: title,
       imgSrc: img,
+      favorite: false,
     };
     const updatedItems = [...prevItems, newItem];
     setItems(updatedItems);
@@ -22,33 +25,76 @@ function Home() {
 
   useEffect(() => {
     const items: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
-    setItems(items);
+    const updatedItems = items.map((item) => ({
+      ...item,
+      favorite: false,
+    }));
+    setItems(updatedItems);
     setTitle("");
     setImg("");
     setLoading(false);
   }, []);
 
-  const addFavorite = (index : number) =>{
+  const updateItem = (id: number) => {
+    const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
+    const newItems = prevItems.map((item) => {
+      if (item.id == id) {
+        return {
+          ...item,
+          favorite: !item.favorite,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    localStorage.setItem("items", JSON.stringify(newItems));
+    setItems(newItems);
+  };
+
+  const addFavorite = (index: number) => {
     console.log(favorite);
-    const prevItems : Item[] = JSON.parse(localStorage.getItem("items") || '[]');
-    const prevFavorites : Item[] = JSON.parse(localStorage.getItem("favorites") || '[]');
+    const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
+    const prevFavorites: Item[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
     const favoriteItem = prevItems[index];
+
     const updatedFavorites = [...prevFavorites, favoriteItem];
     setFavorite((prev) => !prev);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    
-  }
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+
+  const removeFromFavorites = (id: number) => {
+    const prevFavs: Item[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    const updatedFavorites = prevFavs.filter((item) => item.id !== id);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setFavorites([...updatedFavorites]);
+  };
+
+  const removeItem = (id: number) => {
+    const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
+    const index: number = prevItems.findIndex((item) => item.id == id);
+    if (index !== 1) {
+      prevItems.splice(index, 1);
+      localStorage.setItem("items", JSON.stringify(prevItems));
+      removeFromFavorites(id);
+      setItems([...prevItems]);
+    } else {
+      console.log("not found");
+    }
+  };
 
   const cardStyle = {
     maxWidth: "100vh",
-    margin: "auto"
+    margin: "auto",
   };
 
-
- 
   const imgStyle = {
-    height: '200px',
-  }
+    height: "200px",
+  };
   return (
     <>
       <div className="card" style={cardStyle}>
@@ -95,8 +141,8 @@ function Home() {
           items.map((item, index) => (
             <div key={index}>
               <Container>
-                <div className="card-group" >
-                  <div className="card" >
+                <div className="card-group">
+                  <div className="card">
                     <img src={item.imgSrc} alt={item.title} style={imgStyle} />
                     <div className="card-title">
                       <strong> {item.title}</strong>
@@ -107,11 +153,38 @@ function Home() {
                       little bit longer.
                     </p>
                     <div className="card-footer">
-                    <HeartButton isFavorite = {favorite}
-                    key={index}
-                    index={index}
-                    type="button" onClick={() => {addFavorite(index)}}>&#10084;</HeartButton>
-                  </div></div>
+                      <Button
+                        onClick={() => {
+                          removeItem(item.id);
+                          removeFromFavorites(item.id);
+                        }}
+                      >
+                        Remove Item
+                      </Button>
+                      {item.favorite == true ? (
+                        <HeartButton
+                          key={index}
+                          onClick={() => {
+                            updateItem(item.id);
+                            removeFromFavorites(item.id);
+                          }}
+                          type="button"
+                        >
+                          &#10084;
+                        </HeartButton>
+                      ) : (
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            addFavorite(index);
+                            updateItem(item.id);
+                          }}
+                        >
+                          &#10084;
+                        </Button>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </Container>
             </div>

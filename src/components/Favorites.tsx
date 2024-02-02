@@ -1,21 +1,49 @@
-import React , {useState, useEffect} from 'react';
-import { Container, HeartButton, Wrapper } from './Wrapper';
-import { Item } from '../utilities/utilities';
+import React, { useState, useEffect } from "react";
+import { Container, HeartButton, Wrapper } from "./Styles";
+import { Item } from "../utilities/utilities";
 
 function Favorites() {
   const [favorites, setFavorites] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
+
   useEffect(() => {
     const items: Item[] = JSON.parse(localStorage.getItem("favorites") || "[]");
     setFavorites(items);
     setLoading(false);
   }, []);
+
+  const updateItem = (id: number) => {
+    const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
+    const newItems = prevItems.map((item) => {
+      if (item.id == id) {
+        return {
+          ...item,
+          favorite: !item.favorite,
+        };
+      } else {
+        return item;
+      }
+    });
+  };
+
+  const removeFromFavorites = (id: number) => {
+    const prevFavs: Item[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    const updatedFavorites = prevFavs.filter((item) => item.id !== id);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
+    updateItem(id);
+
+    setFavorites([...updatedFavorites]);
+  };
+
   return (
-   <>
-   <h1>This is your favorites dashboard</h1>
-   <Wrapper>
-   {loading ? (
+    <>
+      <h1>This is your favorites dashboard</h1>
+      <Wrapper>
+        {loading ? (
           <p>Loading...</p>
         ) : favorites.length === 0 ? (
           <p>No items available</p>
@@ -35,19 +63,23 @@ function Favorites() {
                       little bit longer.
                     </p>
 
-                    <HeartButton isFavorite = {favorite}
-                    key={index}
-                    index={index}
-                    type="button" onClick={() => {}}>remove from favorites</HeartButton>
+                    <HeartButton
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        removeFromFavorites(item.id);
+                      }}
+                    >
+                      remove from favorites
+                    </HeartButton>
                   </div>
                 </div>
               </Container>
             </div>
           ))
         )}
-   </Wrapper>
-   
-   </>
+      </Wrapper>
+    </>
   );
 }
 

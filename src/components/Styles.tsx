@@ -8,11 +8,15 @@ export const Wrapper = styled.div(() => ({
 
 export const Container = styled.div(() => ({
   margin: "4px",
-  maxWidth: "250px"
+  maxWidth: "250px",
 }));
 
+export const HeartButton = styled.button(() => ({
+  border: "transparent",
+  color: "#c0321e",
+}));
 
-export const HeartButton =styled.button<{isFavorite : boolean , index : number }>((props) => ({
-    border: 'transparent',
-    color: props.isFavorite? '#c0321e' : '#000000'
-}))
+export const Button = styled.button(() => ({
+  border: "transparent",
+  color: "#000000",
+}));
