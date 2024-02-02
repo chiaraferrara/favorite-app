@@ -7,7 +7,6 @@ function Home() {
   const [title, setTitle] = useState("");
   const [img, setImg] = useState("");
   const [loading, setLoading] = useState(true);
-  const [favorite, setFavorite] = useState(false);
   const [favorites, setFavorites] = useState<Item[]>([]);
 
   const saveItemOnLocalStorage = () => {
@@ -29,7 +28,8 @@ function Home() {
       ...item,
       favorite: false,
     }));
-    setItems(updatedItems);
+    setItems(items);
+    setFavorites(updatedItems);
     setTitle("");
     setImg("");
     setLoading(false);
@@ -38,7 +38,7 @@ function Home() {
   const updateItem = (id: number) => {
     const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
     const newItems = prevItems.map((item) => {
-      if (item.id == id) {
+      if (item.id === id) {
         return {
           ...item,
           favorite: !item.favorite,
@@ -48,12 +48,11 @@ function Home() {
       }
     });
 
-    localStorage.setItem("items", JSON.stringify(newItems));
     setItems(newItems);
+    localStorage.setItem("items", JSON.stringify(newItems));
   };
 
   const addFavorite = (index: number) => {
-    console.log(favorite);
     const prevItems: Item[] = JSON.parse(localStorage.getItem("items") || "[]");
     const prevFavorites: Item[] = JSON.parse(
       localStorage.getItem("favorites") || "[]"
@@ -61,7 +60,7 @@ function Home() {
     const favoriteItem = prevItems[index];
 
     const updatedFavorites = [...prevFavorites, favoriteItem];
-    setFavorite((prev) => !prev);
+    setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
@@ -82,19 +81,15 @@ function Home() {
       localStorage.setItem("items", JSON.stringify(prevItems));
       removeFromFavorites(id);
       setItems([...prevItems]);
-    } else {
-      console.log("not found");
     }
   };
 
   const cardStyle = {
     maxWidth: "100vh",
     margin: "auto",
+    marginTop: "20px",
   };
 
-  const imgStyle = {
-    height: "200px",
-  };
   return (
     <>
       <div className="card" style={cardStyle}>
@@ -125,6 +120,7 @@ function Home() {
               placeholder="Image URL"
               onChange={(event) => setImg(event.target.value)}
             />
+            <br />
             <button type="submit" className="btn btn-dark">
               Add
             </button>
@@ -143,7 +139,7 @@ function Home() {
               <Container>
                 <div className="card-group">
                   <div className="card">
-                    <img src={item.imgSrc} alt={item.title} style={imgStyle} />
+                    <img src={item.imgSrc} alt={item.title} />
                     <div className="card-title">
                       <strong> {item.title}</strong>
                     </div>
@@ -157,11 +153,12 @@ function Home() {
                         onClick={() => {
                           removeItem(item.id);
                           removeFromFavorites(item.id);
+                          updateItem(item.id);
                         }}
                       >
                         Remove Item
                       </Button>
-                      {item.favorite == true ? (
+                      {item.favorite === true ? (
                         <HeartButton
                           key={index}
                           onClick={() => {

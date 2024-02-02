@@ -3,9 +3,9 @@ import { Container, HeartButton, Wrapper } from "./Styles";
 import { Item } from "../utilities/utilities";
 
 function Favorites() {
+  const [items, setItems] = useState<Item[]>([]);
   const [favorites, setFavorites] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
-  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     const items: Item[] = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -25,6 +25,8 @@ function Favorites() {
         return item;
       }
     });
+    setItems(newItems);
+    localStorage.setItem("items", JSON.stringify(newItems));
   };
 
   const removeFromFavorites = (id: number) => {

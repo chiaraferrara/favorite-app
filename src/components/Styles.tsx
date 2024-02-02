@@ -4,6 +4,7 @@ export const Wrapper = styled.div(() => ({
   display: "flex",
   flexFlow: "row wrap",
   justifyContent: "center",
+  marginTop: "20px",
 }));
 
 export const Container = styled.div(() => ({
