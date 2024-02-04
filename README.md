@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+### Obiettivo dell'esercizio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sviluppare un'applicazione web con ReactJS utilizzando il comando `create-react-app` con il template TypeScript. L'applicazione permetterà agli utenti di creare, visualizzare contenuti e gestire una lista di preferiti. Si richiede di utilizzare, ove possibile, `styled-components` per lo styling, una rigorosa tipizzazione TypeScript per migliorare la manutenibilità del codice, e la persistenza dei dati attraverso `localStorage` per mantenere lo stato dei preferiti anche dopo il riavvio del browser.
 
-## Available Scripts
+### Requisiti
 
-In the project directory, you can run:
+1. **Inizializzazione del Progetto:**
+   - Utilizzare `npx create-react-app nome-app --template typescript` per creare un nuovo progetto React con TypeScript.
+   - Installare `styled-components` per il CSS-in-JS e aggiungere i tipi necessari per TypeScript con `npm install styled-components @types/styled-components`.
 
-### `npm start`
+2. **Struttura dell'Applicazione:**
+   - Implementare una **barra di navigazione** superiore per spostarsi tra le pagine "Home" e "Preferiti".
+   - Nella pagina "Home", visualizzare un **form** per la creazione di un nuovo contenuto con campi per titolo, descrizione e URL dell'immagine.
+   - Al di sotto del form, mostrare una **lista di card** che rappresentano i contenuti creati. Ogni card deve visualizzare il titolo, la descrizione, l'immagine e avere un bottone per aggiungere o rimuovere il contenuto dai preferiti.
+   - Nella pagina "Preferiti", mostrare le card che sono state aggiunte ai preferiti con la possibilità di rimuoverle dalla lista tramite un bottone.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. **Funzionalità:**
+   - Implementare la logica per **aggiungere un nuovo contenuto** tramite il form. Ogni nuovo contenuto deve essere aggiunto alla lista visualizzata nella home.
+   - Consentire agli utenti di **aggiungere o rimuovere contenuti dai preferiti**. Questa preferenza deve essere riflessa in tempo reale sulla UI.
+   - Nella pagina dei Preferiti, fornire la funzionalità per **rimuovere contenuti** dalla lista dei preferiti.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+4. **Persistenza dei Dati:**
+   - Utilizzare `localStorage` per salvare lo stato dei contenuti e dei preferiti, in modo che le informazioni persistano tra le sessioni del browser.
 
-### `npm test`
+5. **Styled-Components e TypeScript:**
+   - Utilizzare `styled-components` per lo styling dei componenti. Definire temi, varianti e stili riutilizzabili per mantenere il codice ordinato e facilmente manutenibile.
+   - Applicare una rigorosa tipizzazione TypeScript in tutto il progetto per definire props, stati e oggetti, migliorando così la sicurezza del codice e riducendo gli errori in fase di sviluppo.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Criteri di Valutazione
 
-### `npm run build`
+- **Funzionalità:** L'applicazione deve soddisfare tutti i requisiti funzionali descritti.
+- **Codice Pulito e Organizzazione:** Il codice deve essere ben organizzato, commentato e seguendo le best practice di React e TypeScript.
+- **Design e UX:** L'interfaccia utente deve essere intuitiva e piacevole. L'uso di `styled-components` deve contribuire a un'esperienza utente coesa e personalizzata.
+- **Persistenza dei Dati:** La gestione dei dati con `localStorage` deve essere implementata correttamente per garantire una buona esperienza utente.
+- **Utilizzo di TypeScript:** La tipizzazione deve essere utilizzata in modo efficace per ridurre gli errori e migliorare la leggibilità del codice.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Risorse Consigliate
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
+- [Documentazione ufficiale di React](https://reactjs.org/docs/getting-started.html)
+- [Styled-Components](https://styled-components.com/docs)
+- [Uso di localStorage in React](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- [Documentazione TypeScript per React](https://www.typescriptlang.org/docs/handbook/react.html)
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
