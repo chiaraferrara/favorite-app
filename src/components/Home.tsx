@@ -100,10 +100,10 @@ function Home() {
             name="itemform"
             action="#"
             onSubmit={(e) => {
-              e.preventDefault(),
-                saveItemOnLocalStorage(),
-                setTitle(""),
-                setImg("");
+              e.preventDefault()
+                saveItemOnLocalStorage()
+                setTitle("")
+                setImg("")
             }}
           >
             <input
